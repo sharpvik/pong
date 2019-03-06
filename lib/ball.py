@@ -1,4 +1,4 @@
-from math import sin, cos, radians
+from math import sin, cos, tan, radians
 from random import randint
 
 
@@ -11,15 +11,38 @@ class Ball:
         self.radius         = kw['radius']
         self.speed          = kw['speed'] / float(frame_rate)
         self.colour         = kw['colour']
-        self.direction      = randint(0, 359)
+        self.angle          = radians( randint(0, 359) )
+        self.m              = float()
+        self.dy             = float()
+        self.dx             = float()
+        self.wall_top       = self.radius
+        self.wall_bottom    = screen_height - self.radius
+        
         
     def goal(self, x):
         return not (0 < x < self.screen_width)
         
+        
+    def wall_bounce(self):
+        self.angle = -self.angle
+        
+        
+    def player_bounce(self):
+        self.angle = radians(180) - self.angle
+        
+        
+    def wall_collision(self):
+        return not self.wall_top < self.y < self.wall_bottom
+        
+        
     def logic(self):
-        rad = radians(self.direction)
-        self.x += self.speed * cos(rad)
-        self.y += self.speed * sin(rad)
+        self.dx = self.speed * cos(self.angle)
+        self.dy = self.speed * sin(self.angle)
+        self.x += self.dx
+        self.y += self.dy
+        if self.wall_collision():
+            self.wall_bounce()    
+        
         
     def render(self, canvas):
         self.logic()

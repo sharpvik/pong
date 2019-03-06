@@ -26,6 +26,8 @@ class Pong:
             'height'        : kw['player_height'],
             'speed'         : kw['player_speed'],
             'colour'        : kw['player_colour'],
+            'left line'     : kw['player_offset'] + kw['player_width'] + kw['ball_radius'],
+            'right line'    : kw['screen_width'] - (kw['player_offset'] + kw['player_width'] + kw['ball_radius'])
         }
         self.ball = {
             'radius'        : kw['ball_radius'],
@@ -99,11 +101,29 @@ class Pong:
         key = e.char
         if key not in 'psrq' and self.on:
             self.keys_down.remove(key)
+            
+            
+    def left_line_crossed(self):
+        return self.ball.x < self.player['left line']
+        
+        
+    def right_line_crossed(self):
+        return self.ball.x > self.player['right line']
+        
+        
+    def player_bounced(self, player):
+        return player.y - player.halfheight < self.ball.y < player.y + player.halfheight
         
         
     def logic(self):
         for key in self.keys_down:
             self.controls[key][0](self.controls[key][1])
+        if self.left_line_crossed():
+            if self.player_bounced(self.player1):
+                self.ball.player_bounce()
+        if self.right_line_crossed():
+            if self.player_bounced(self.player2):
+                self.ball.player_bounce()
 
     
     def gameloop(self):

@@ -9,6 +9,7 @@ class Player:
         self.y = screen_height / 2.0
         self.colour = kw['colour']
         self.speed = kw['speed'] / float(frame_rate)
+    
         
     def move(self, direction):
         if direction == 'up':
@@ -18,10 +19,12 @@ class Player:
             new_y = self.y + self.speed
             self.y = new_y if self.valid_move(new_y) else self.y
             
+            
     def valid_move(self, y):
         top    = y - self.halfheight
         bottom = y + self.halfheight
         return top > 0 and bottom < self.screen_height
+        
         
     def render(self, canvas):
         canvas.create_rectangle(self.x - self.halfwidth, 

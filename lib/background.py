@@ -4,6 +4,7 @@ class Background:
         self.height = height
         self.colour = colour
         
+        
     def render(self, canvas):
         canvas.create_rectangle(0, 0, self.width, self.height, fill='black', 
                                 outline='')

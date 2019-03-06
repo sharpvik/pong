@@ -1,11 +1,6 @@
-# STANDARD LIBRARY IMPORTS
-import Tkinter
-
-# OWN IMPORTS
 from lib.pong import Pong
 
 
-# DECLARE INSTANCE OF Pong
 Pong(
     # GENERAL
     authors=['VIKTOR A. ROZENKO VOITENKO'],
@@ -25,6 +20,6 @@ Pong(
     player_colour='white',
     # BALL
     ball_radius=10, # pixels
-    ball_speed=600, # pixels/second
+    ball_speed=400, # pixels/second
     ball_colour='#F50057'
 )
