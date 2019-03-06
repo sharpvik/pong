@@ -26,8 +26,8 @@ class Pong:
             'height'        : kw['player_height'],
             'speed'         : kw['player_speed'],
             'colour'        : kw['player_colour'],
-            'left line'     : kw['player_offset'] + kw['player_width'] + kw['ball_radius'],
-            'right line'    : kw['screen_width'] - (kw['player_offset'] + kw['player_width'] + kw['ball_radius'])
+            'left line'     : kw['player_offset'] + kw['player_width'] + kw['ball_radius'] / 1.5,
+            'right line'    : kw['screen_width'] - (kw['player_offset'] + kw['player_width'] + kw['ball_radius'] / 1.5)
         }
         self.ball = {
             'radius'        : kw['ball_radius'],
@@ -35,6 +35,7 @@ class Pong:
             'colour'        : kw['ball_colour']
         }
         self.keys_down = set()
+        self.score = [0, 0]
         
         
         # GUI
@@ -116,14 +117,28 @@ class Pong:
         
         
     def logic(self):
+        # players moving
         for key in self.keys_down:
-            self.controls[key][0](self.controls[key][1])
+            try:
+                self.controls[key][0](self.controls[key][1])
+            except:
+                pass
+            
+        # players bounce the ball off
         if self.left_line_crossed():
             if self.player_bounced(self.player1):
                 self.ball.player_bounce()
+            else:
+                self.ball.reset()
+                self.score[0] += 1
+                print(self.score)
         if self.right_line_crossed():
             if self.player_bounced(self.player2):
                 self.ball.player_bounce()
+            else:
+                self.ball.reset()
+                self.score[1] += 1
+                print(self.score)
 
     
     def gameloop(self):

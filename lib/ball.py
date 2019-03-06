@@ -4,6 +4,7 @@ from random import randint
 
 class Ball:
     def __init__(self, screen_width, screen_height, frame_rate, kw):
+        self.frame_rate     = frame_rate
         self.screen_width   = screen_width
         self.screen_height  = screen_height
         self.x              = screen_width / 2.0
@@ -17,10 +18,20 @@ class Ball:
         self.dx             = float()
         self.wall_top       = self.radius
         self.wall_bottom    = screen_height - self.radius
+        self.reset_timeout  = frame_rate
         
         
-    def goal(self, x):
-        return not (0 < x < self.screen_width)
+    def reset(self):
+        if self.reset_timeout > 0:
+            self.reset_timeout -= 1
+        else:
+            self.x              = self.screen_width / 2.0
+            self.y              = self.screen_height / 2.0
+            self.angle          = radians( randint(0, 359) )
+            self.m              = float()
+            self.dy             = float()
+            self.dx             = float()
+            self.reset_timeout  = self.frame_rate
         
         
     def wall_bounce(self):
