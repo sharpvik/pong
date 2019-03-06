@@ -13,21 +13,13 @@ class Ball:
         self.colour         = kw['colour']
         self.direction      = randint(0, 359)
         
-    def valid_move(self, y):
-        return 0 < y - self.radius and y + self.radius < self.screen_height
-        
     def goal(self, x):
         return not (0 < x < self.screen_width)
         
     def logic(self):
         rad = radians(self.direction)
-        dx  = self.speed * cos(rad)
-        dy  = self.speed * sin(rad)
-        new_x = self.x + dx
-        new_y = self.y + dy
-        if self.valid_move(new_y):
-            self.x = new_x
-            self.y = new_y
+        self.x += self.speed * cos(rad)
+        self.y += self.speed * sin(rad)
         
     def render(self, canvas):
         self.logic()
